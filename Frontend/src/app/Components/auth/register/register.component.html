@@ -1,0 +1,168 @@
+<div class="main-container d-flex justify-content-center align-items-center h-100">
+  <form class="modern-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <div class="form-title">{{addUser ? 'Add User' : 'Register'}}</div>
+
+    <div class="form-body">
+      <!-- fullName -->
+      <div class="input-group">
+        <div class="input-wrapper">
+          <i class="bi bi-person input-icon"></i>
+          <input
+            placeholder="FullName"
+            class="form-input"
+            type="text"
+            name="fullName"
+            formControlName="fullName"
+          />
+        </div>
+        <div *ngIf="registrationForm.get('fullName')?.invalid && (registrationForm.get('fullName')?.touched || registrationForm.get('fullName')?.dirty)" class="error">
+          Full Name is required
+        </div>
+      </div>
+      
+
+      <!-- userName  -->
+      <div class="input-group">
+        <div class="input-wrapper">
+          <i class="bi bi-at input-icon"></i>
+          <input
+            required=""
+            placeholder="Username"
+            class="form-input"
+            type="text"
+            name="userName"
+            formControlName="userName"
+          />
+        </div>
+        <div *ngIf="registrationForm.get('userName')?.invalid && (registrationForm.get('userName')?.touched || registrationForm.get('userName')?.dirty)" class="error">
+          Username is required
+        </div>
+      </div>
+
+      <!-- email  -->
+      <div class="input-group">
+        <div class="input-wrapper">
+          <i class="bi bi-envelope input-icon"></i>
+          <input
+            required=""
+            placeholder="Email"
+            class="form-input"
+            type="email"
+            name="email"
+            formControlName="email"
+          />
+        </div>
+        <div *ngIf="registrationForm.get('email')?.invalid && (registrationForm.get('email')?.touched || registrationForm.get('email')?.dirty)" class="error">
+          <span *ngIf="registrationForm.get('email')?.errors?.['required']">Email is required</span>
+          <span *ngIf="registrationForm.get('email')?.errors?.['email']">Invalid email format</span>
+        </div>
+      </div>
+
+      
+
+      <!-- contact number --> 
+      <div class="input-group">
+        <div class="input-wrapper">
+          <i class="bi bi-telephone input-icon"></i>
+          <input
+            required
+            placeholder="Contact Number"
+            class="form-input"
+            type="text"
+            name="contactNumber"
+            formControlName="contactNumber"
+            maxlength="10"
+          />
+        </div>
+        <div *ngIf="registrationForm.get('contactNumber')?.invalid && (registrationForm.get('contactNumber')?.touched || registrationForm.get('contactNumber')?.dirty)" class="error">
+          <span *ngIf="registrationForm.get('contactNumber')?.errors?.['required']">Contact number is required</span>
+          <span *ngIf="registrationForm.get('contactNumber')?.errors?.['pattern']">Contact number must be 10 digits</span>
+        </div>
+      </div>
+
+      <!-- department dropdown -->
+      <div *ngIf="!addUser" class="input-group">
+        <div class="input-wrapper">
+          <i class="bi bi-diagram-3 input-icon"></i>
+          <select class="form-input" name="department" formControlName="department">
+            <option value="">Select Department</option>
+            @for(dept of department; track dept){
+              <option [value]="dept">{{dept}}</option>
+            }
+          </select>
+        </div>
+        <div *ngIf="registrationForm.get('department')?.invalid && (registrationForm.get('department')?.touched || registrationForm.get('department')?.dirty)" class="error">
+          Department is required
+        </div>
+      </div>
+
+      <!-- user role dropdown -->
+      <div *ngIf="!addUser" class="input-group">
+        <div class="input-wrapper">
+          <i class="bi bi-diagram-3 input-icon"></i>
+          <select class="form-input" name="role" formControlName="role">
+            <option value="">Select Role</option>
+            <option value="head">Head</option>
+            <option value="staff">Staff</option>
+          </select>
+        </div>
+        <div *ngIf="registrationForm.get('role')?.invalid && (registrationForm.get('role')?.touched || registrationForm.get('role')?.dirty)" class="error">
+          Role is required
+        </div>
+      </div>
+      
+      <!-- password  -->
+      <div class="input-group">
+        <div class="input-wrapper">
+          <i class="bi bi-shield-lock input-icon"></i>
+          <input
+            required=""
+            placeholder="Password"
+            class="form-input"
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            formControlName="password"
+          />
+          <button class="password-toggle" type="button" (click)="showPassword = !showPassword">
+            <svg fill="none" viewBox="0 0 24 24" class="eye-icon">
+              <path
+                stroke-width="1.5"
+                stroke="currentColor"
+                d="M2 12C2 12 5 5 12 5C19 5 22 12 22 12C22 12 19 19 12 19C5 19 2 12 2 12Z"
+              ></path>
+              <circle
+                stroke-width="1.5"
+                stroke="currentColor"
+                r="3"
+                cy="12"
+                cx="12"
+              ></circle>
+            </svg>
+          </button>
+        </div>
+        <div *ngIf="registrationForm.get('password')?.invalid && (registrationForm.get('password')?.dirty || registrationForm.get('password')?.touched)" class="error">
+          <span *ngIf="registrationForm.get('password')?.errors?.['required']">Password is required</span>
+          <span *ngIf="registrationForm.get('password')?.errors?.['pattern']">
+            Password must be at least 8 characters, include uppercase, lowercase, number, and special character
+          </span>
+        </div>
+        
+      </div>
+
+      <div class="mb-3">
+        <input type="file" class="form-control" name="profile-image" id="profile-image" formControlName="profileImage" (change)="onFileSelected($event)">
+      </div>
+    </div>
+
+    <button class="submit-button" type="submit">
+      <span class="button-text">Create Account</span>
+      <div class="button-glow"></div>
+    </button>
+
+    <div *ngIf="!addUser" class="form-footer">
+      <a class="login-link" routerLink="/login">
+        Already have an account? <span>Login</span>
+      </a>
+    </div>
+  </form>
+</div>

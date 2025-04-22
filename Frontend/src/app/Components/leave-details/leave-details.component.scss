@@ -1,0 +1,254 @@
+.tables{
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+.pos-abs{
+    position: absolute;
+    top: 50%;
+}
+
+.gap-8{
+    gap: 8px;
+}
+
+.profile-image{
+    border-radius: 50px;
+    z-index: 2;
+}
+
+.horizontal-line{
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    top: 36px;
+    left: 0px;
+    background-color: #21D4FD;
+    background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+}
+
+.model-header{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    top: -19px;
+    right: -15px;
+}
+
+.model{
+    border-radius: 10px;
+    padding: 25px;
+    background-color: white;
+    transition: opacity 0.3s ease-in-out;
+    position: relative;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+}
+
+.cross-icon{
+    border: 1px solid red;
+    height: 40px;
+    border-radius: 55px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-22{
+    font-size: 22px;
+}
+
+.page-size{
+    .form-select{
+        width: 70px !important;
+    }
+}
+
+.filter{    
+    .form-select{
+        width: 120px;
+    }
+    .form-select:focus {
+        box-shadow: none !important;
+        outline: none !important;
+    }
+}
+
+.main-content{
+    padding: 20px;
+}
+
+.status-badge{
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: white;
+}
+
+.mb-16{
+    margin-bottom: 16px;
+}
+
+.pagination-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.page{
+    height: 37px;
+}
+
+
+.dashboard-cards {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .dashboard-cards .card {
+    flex: 1 1 calc(25% - 10px);
+    min-width: 150px;
+    padding: 16px;
+    text-align: center;
+    border-radius: 8px;
+  }
+  
+  /* Responsive - mobile view */
+  @media (max-width: 768px) {
+    .dashboard-cards {
+      flex-direction: column;
+    }
+
+    .dashboard-cards .card {
+      flex: 1 1 100%;
+    }
+  }
+  
+  /* Optional styling helpers */
+  .f-45 {
+    font-size: 2rem;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .bg-light-green {
+    background-color: #d4edda;
+  }
+  
+  .bg-light-blue {
+    background-color: #d1ecf1;
+  }
+  
+  .bg-light-pink {
+    background-color: #f8d7da;
+  }
+  
+  .bg-light-orange {
+    background-color: #fff3cd;
+  }
+
+  .model{
+    border-radius: 10px;
+    padding : 30px;
+    background-color: white;
+    transition: opacity 0.3s ease-in-out;
+    position: relative;
+}
+
+.model-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.fs-larger{
+    font-size: larger;
+}
+
+.form-select{
+    width: 70px !important;
+}
+
+.main-content{
+    padding: 20px;
+}
+
+.w-30{
+    width: 30%;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+    border-color: #ccc !important;
+    outline: none !important;
+}
+
+.status-badge{
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: white;
+}
+
+.page-size{
+    .form-select{
+        width: 70px !important;
+    }
+}
+
+.filter{    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .form-select{
+        width: 120px !important;
+    }
+    .form-select:focus {
+        box-shadow: none !important;
+        outline: none !important;
+    }
+}
+
+.pagination{
+    height: 37px;
+}
+
+.modal{
+    width: 30%;
+}
+
+@media screen and (max-width: 768px) {
+    .modal {
+      width: 95% !important;
+    }
+  }
+  

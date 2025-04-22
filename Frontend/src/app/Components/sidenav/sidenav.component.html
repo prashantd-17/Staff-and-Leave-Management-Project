@@ -1,0 +1,37 @@
+
+<div class="sidebar-overlay" *ngIf="sidebarOpen" (click)="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" [class.sidebar-open]="sidebarOpen">
+  <div class="sidebar-header">
+    <h5 class="mb-0">{{ currentUser.role === 'head' ? 'HOD Panel' : 'Staff Panel' }}</h5>
+    <button class="btn-close d-md-none" (click)="toggleSidebar()"></button>
+  </div>
+
+  <ul class="nav flex-column p-3 gap-3">
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-2"
+         [class.active]="activeMenu === 'Dashboard'"
+         (click)="setActiveMenu('Dashboard'); closeOnMobile()">
+        <mat-icon>dashboard</mat-icon>
+        Dashboard
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="currentUser.role === 'head'">
+      <a class="nav-link d-flex align-items-center gap-2"
+         [class.active]="activeMenu === 'Staff Management'"
+         (click)="setActiveMenu('Staff Management'); closeOnMobile()">
+        <mat-icon>group</mat-icon>
+        Staff Management
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-2"
+         [class.active]="activeMenu === 'Leave Management'"
+         (click)="setActiveMenu('Leave Management'); closeOnMobile()">
+        <mat-icon>event</mat-icon>
+        Leave Management
+      </a>
+    </li>
+  </ul>
+</nav>

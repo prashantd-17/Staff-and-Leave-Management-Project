@@ -1,0 +1,264 @@
+
+<div class="" *ngIf="activeMenu === 'Dashboard'">
+    <p-card header="">
+      <div class="dashboard-cards">
+        <div class="card bg-light-green" *ngIf="isHod">
+          <span class="f-45">{{ staffMembers.length }}</span>
+          <span>Total Staff</span>
+        </div>
+        <div class="card bg-light-blue">
+          <span class="f-45">{{ isHod ? pendingLeavesCount : pendingLeavesCountStaff }}</span>
+          Pending Leaves
+        </div>
+        <div class="card bg-light-pink">
+          <span class="f-45">{{ isHod ? approvedLeavesCount : approvedLeavesCountStaff }}</span>
+          Approved Leaves
+        </div>
+        <div class="card bg-light-orange">
+          <span class="f-45">{{ isHod ? rejectedLeavesCount : rejectedLeavesCountStaff }}</span>
+          Rejected Leaves
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Leave Management  -->
+<div class="tables" *ngIf="activeMenu === 'Leave Management'">
+    <p-table
+    #dt1
+    [value]="leaveDetails"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [globalFilterFields]="['fullName']"
+    [customSort]="true"
+    (sortFunction)="customSort($event)"
+
+>
+<ng-template #caption>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div class="flex-grow-1 me-2">
+          <p-iconfield iconPosition="left" class="w-100">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input
+              pInputText
+              type="text"
+              (input)="filterGlobal($event, 'contains', 'leave')"
+              placeholder="Search..."
+              class=""
+            />
+          </p-iconfield>
+        </div>
+      
+        <button class="btn btn-primary mt-2 mt-md-0" (click)="leaveRequest = true">
+          <i class="bi bi-plus-lg me-2"></i>Apply Leave
+        </button>
+      </div>
+      
+</ng-template>
+    <ng-template #header>
+        <tr>
+            <th style="width:10%">Staff Name</th>
+            <th style="width:10%">From Date</th>
+            <th style="width:10%">To Date</th>
+            <th style="width:10%">Reason</th>
+            <th style="width:10%" pSortableColumn="status">
+                Status
+                <p-sortIcon field="status"></p-sortIcon>
+              </th>           
+               <th style="width:10%">Action</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-item>
+        <tr>
+            <td>{{item.fullName}}</td>
+            <td>{{formatDate(item.leaveFrom)}}</td>
+            <td>{{formatDate(item.leaveTo)}}</td>
+            <td>{{item.reason}}</td>
+            <td>
+                <p-tag 
+                [severity]="getTagSeverity(item.status)" 
+                [value]="item.status | titlecase">
+              </p-tag>
+            </td>
+            <td >
+                <button *ngIf="isHod" class="btn btn-success btn-sm mr-4" [disabled]="item.status === 'approved'" (click)="updateLeaveStatus(item._id, 'approved')"><i class="bi bi-check-circle"></i></button>
+                <button *ngIf="isHod" class="btn btn-danger btn-sm" [disabled]="item.status === 'rejected'" (click)="updateLeaveStatus(item._id, 'rejected')"><i class="bi bi-x-circle"></i></button>
+                <button *ngIf="currentUser.role === 'staff'" class="btn btn-info btn-sm" (click)="leaveRequest = true"><i class="bi bi-eye"></i></button>
+            </td>
+        </tr>
+    </ng-template>
+
+    <!-- Staff Details  -->
+    <ng-template #header>
+        <tr>
+            <th style="width:10%">Staff Name</th>
+            <th style="width:10%">From Date</th>
+            <th style="width:10%">To Date</th>
+            <th style="width:10%">Reason</th>
+            <th style="width:10%">Status</th>
+            <th style="width:10%">Action</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-item>
+        <tr>
+            <td>{{item.fullName}}</td>
+            <td>{{formatDate(item.leaveFrom)}}</td>
+            <td>{{formatDate(item.leaveTo)}}</td>
+            <td>{{item.reason}}</td>
+            <td>{{item.status | titlecase}}</td>
+            <td>
+                <button class="btn btn-success btn-sm mr-4" [disabled]="item.status === 'approved'" (click)="updateLeaveStatus(item.id, 'approved')"><i class="bi bi-check-circle"></i></button>
+                <button class="btn btn-danger btn-sm" [disabled]="item.status === 'rejected'" (click)="updateLeaveStatus(item.id, 'rejected')"><i class="bi bi-x-circle"></i></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>
+
+
+<!-- Staff Management  -->
+<div class="tables" *ngIf="activeMenu === 'Staff Management'">
+    <p-table
+    #dt2
+    [value]="staffMembers"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [globalFilterFields]="['fullName']" 
+>
+<ng-template #caption>
+    <div class="flex">
+        <p-iconfield iconPosition="left" class="ml-auto">
+            <p-inputicon>
+                <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input pInputText type="text" (input)="filterGlobal($event, 'contains', 'staff')" placeholder="Search keyword" />
+        </p-iconfield>
+    </div>
+</ng-template>
+    <ng-template #header>
+        <tr>
+            <th style="width:10%">Full Name</th>
+            <th style="width:10%">Username</th>
+            <th style="width:10%">Email</th>
+            <th style="width:10%">Mobile</th>
+            <th style="width:10%">Action</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-user>
+        <tr>
+            <td>{{user.fullName}}</td>
+                <td>{{user.userName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.contactNumber}}</td>
+                <td>
+                    <button class="btn btn-info btn-sm mr-4" (click)="viewDetails(user._id)"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-danger btn-sm" (click)="openConfirmationModal(user._id); showConfirmationModal = true"><i class="bi bi-trash3"></i></button>
+                </td>
+        </tr>
+    </ng-template>
+
+</p-table>
+</div>
+
+
+
+<!-- user details modal  -->
+<div class="modal-overlay" *ngIf="showModal">
+    <div class="model">
+        <div class="horizontal-line"></div>
+        <div class="model-header justify-content-end">
+            <i (click)="showModal = false" class="bi bi-x-lg"></i>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+            <img class="profile-image" [src]="selectedMember.profileImage" width="60" height="60">
+        </div>
+        <h4 class="text-center fs-5 mt-1 fw-bold">{{selectedMember.fullName}}</h4> 
+         <div class="d-flex align-items-center gap-16">
+            <span><i class="bi bi-envelope"></i></span>
+            <span>{{selectedMember.email}}</span>
+         </div>
+
+         <div class="d-flex align-items-center gap-16">
+            <span><i class="bi bi-person"></i></span>
+            <span>{{selectedMember.userName}}</span>
+         </div>
+
+
+         <div class="d-flex align-items-center gap-16">
+            <span><i class="bi bi-telephone"></i></span>
+            <span>{{selectedMember.contactNumber}}</span>
+         </div>
+    </div>
+</div>  
+
+<!-- delete confirmation modal  -->
+<div class="modal-overlay" *ngIf="showConfirmationModal">
+    <div class="model">
+        <div class="model-header justify-content-end">
+            <i (click)="showConfirmationModal = false" class="bi bi-x-lg"></i>
+        </div>
+        <div class="w-100 d-flex justify-content-center">
+            <div class="cross-icon">
+                <i class="bi bi-trash3 text-danger mt-1"></i>
+            </div>
+        </div>
+        <h3 class="text-center f-22">Are you sure?</h3>
+        <p>Do you really want to delete the staff member?</p>
+        <div class="d-flex gap-8 justify-content-end">
+            <button class="btn btn-secondary" (click)="showConfirmationModal = false">Cancel</button>
+            <button class="btn btn-danger" (click)="removeStaffMember()">Delete</button>
+        </div>
+       
+    </div>
+</div>  
+
+       <!-- leave request modal  -->
+       <div class="modal-overlay" *ngIf="leaveRequest">
+        <div class="model">
+            <div class="model-header mb-0">
+                <h4 class="m-0 fs-larger">Apply Leave</h4>
+                <i (click)="leaveRequest = false;leavesForm.reset();" class="bi bi-x-lg"></i>
+            </div>
+            <form [formGroup]="leavesForm" (ngSubmit)="requestLeave()">
+                <div class="form-body d-flex flex-column gap-2">
+                    <div class="input-group">
+                        <input
+                            class="form-control"
+                            placeholder="Start Date"
+                            name="leaveFrom"
+                            formControlName="leaveFrom"
+                            ngbDatepicker
+                            #dFrom="ngbDatepicker"
+                        />
+                        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dFrom.toggle()" type="button"></button>
+                    </div> 
+                    <div *ngIf="leavesForm.errors?.['dateInvalid']" class="text-danger">
+                        Start Date must be less than End Date.
+                      </div>
+                    <div class="input-group">
+                        <input
+                            class="form-control"
+                            placeholder="End Date"
+                            name="leaveTo"
+                            formControlName="leaveTo"
+                            ngbDatepicker
+                            #dTo="ngbDatepicker"
+                        />
+                        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dTo.toggle()" type="button"></button>
+                    </div> 
+                    <div class="form-floating">
+                        <textarea class="form-control" formControlName="reason" placeholder="Reason for Leave" id="floatingTextarea"></textarea>
+                        <label for="floatingTextarea">Reason for Leave</label>
+                      </div>
+                    <button class="btn btn-primary mt-1" type="submit" [disabled]="leavesForm.invalid">Send Request</button>
+                </div>
+            </form>
+        </div>  
+        </div> 
+

@@ -1,0 +1,12 @@
+<nav class="top-nav">
+    <button class="btn btn-outline-primary d-md-none toggle-btn" (click)="toggleSidebar()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <h4 class="m-0 d-none d-md-block">{{activeMenu}}</h4>
+    <div class="d-flex align-items-center gap-8">
+        <img *ngIf="currentUser.profileImage" class="profile-image" [src]="currentUser.profileImage" width="40" height="40">
+        <img *ngIf="!currentUser.profileImage" class="profile-image" src="/default-profile.jpeg" width="40" height="40">
+        <h5 class="m-0">{{currentUser.fullName}}</h5>
+        <button type="button" class="btn btn-light" (click)="logout()" title="Logout"><i class="bi bi-box-arrow-right"></i></button>
+    </div>
+</nav>

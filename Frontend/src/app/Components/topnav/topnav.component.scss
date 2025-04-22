@@ -1,0 +1,17 @@
+.top-nav{
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+.profile-image{
+    border-radius: 50px;
+    margin-right: 4px;
+}
+
+.mat-icon{
+    height: 18px !important;
+}
