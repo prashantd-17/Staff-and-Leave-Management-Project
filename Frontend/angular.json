@@ -29,7 +29,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "src/_redirects"
               }
             ],
             "styles": [
@@ -98,7 +99,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "src/_redirects"
               }
             ],
             "styles": [
