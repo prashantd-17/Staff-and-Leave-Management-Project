@@ -1,6 +1,0 @@
-{
-    "root": "dist/staff-leave-management-system",
-    "routes": {
-      "/**": "index.html"
-    }
-  }
