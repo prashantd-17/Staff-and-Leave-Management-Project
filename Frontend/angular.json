@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/staff-leave-management-system",
+            "outputPath": "dist",
             "deployUrl": "/",
             "index": "src/index.html",
             "browser": "src/main.ts",
